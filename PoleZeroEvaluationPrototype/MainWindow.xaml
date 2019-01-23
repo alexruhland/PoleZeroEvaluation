@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PoleZeroEvaluationPrototype"
         mc:Ignorable="d"
-        Title="Pole Zero Evaluation Prototype" Height="400" Width="400">
-
+        Title="Pole Zero Evaluation Prototype"
+        Width="500"
+        Height="650">
 </Window>

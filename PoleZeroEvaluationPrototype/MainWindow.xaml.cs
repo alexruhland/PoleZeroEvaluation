@@ -20,55 +20,73 @@ namespace PoleZeroEvaluationPrototype
     /// </summary>
     public partial class MainWindow : Window
     {
-        Canvas canvas;
         public MainWindow()
         {
             InitializeComponent();
 
-            canvas = new Canvas();
-            this.Content = canvas;
+            //Generate canvas and show.
+            //Sizes depend on main canvas.
+            Canvas mainCanvas = new Canvas
+            {
+                Width = this.Width,
+                Height = this.Height
+            };
 
-            DrawAxis();
-            DrawUnitCircle();
+            Canvas magCanvas = new Canvas
+            {
+                Width = mainCanvas.Width / 3 * 2,
+                Height = mainCanvas.Height / 4,
+                Background = Brushes.Aqua
+            };
+            Canvas.SetTop(magCanvas, 0);
+            Canvas.SetLeft(magCanvas, 0);
+
+            Canvas phaseCanvas = new Canvas
+            {
+                Width = magCanvas.Width,
+                Height = magCanvas.Height,
+                Background = Brushes.Beige
+            };
+            Canvas.SetTop(phaseCanvas, magCanvas.Height);
+            Canvas.SetLeft(phaseCanvas, 0);
+
+            Canvas pzCanvas = new Canvas
+            {
+                Width = phaseCanvas.Width,
+                Height = mainCanvas.Height / 2,
+               Background = Brushes.Violet
+            };
+            Canvas.SetTop(pzCanvas, 2 * magCanvas.Height);
+            Canvas.SetLeft(pzCanvas, 0);
+
+            Canvas pzTextCanvase = new Canvas
+            {
+                Width = mainCanvas.Width - pzCanvas.Width,
+                Height = mainCanvas.Height,
+                Background = Brushes.Yellow
+            };
+            Canvas.SetTop(pzTextCanvase, 0);
+            Canvas.SetLeft(pzTextCanvase, pzCanvas.Width);
             
+
+            //Fill up some stuffs
+            mainCanvas.Children.Add(magCanvas);
+            mainCanvas.Children.Add(phaseCanvas);
+            mainCanvas.Children.Add(pzCanvas);
+            mainCanvas.Children.Add(pzTextCanvase);
+
+            DrawingUtils.DrawAxis(pzCanvas);
+            DrawingUtils.DrawUnitCircle(pzCanvas);
+            DrawingUtils.InitTextBox(pzTextCanvase);
+
+            this.Content = mainCanvas;
+            this.Show();
+
+            //Initialize the collection
+            PoleAndZeroCollection _pAndzCollection = new PoleAndZeroCollection();
+
+
         }
-
-        public void DrawAxis()
-        {
-            Line line1 = new Line();
-            line1.X1 = 200;
-            line1.X2 = 200;
-            line1.Y1 = 0;
-            line1.Y2 = 300;
-            line1.Stroke = System.Windows.Media.Brushes.Black ;
-            line1.StrokeThickness = 1;
-
-            Line line2 = new Line();
-            line2.X1 = 50;
-            line2.X2 = 350;
-            line2.Y1 = 150;
-            line2.Y2 = 150;
-            line2.Stroke = System.Windows.Media.Brushes.Black;
-            line2.StrokeThickness = 1;
-
-            canvas.Children.Add(line1);
-            canvas.Children.Add(line2);
-        }
-
-        public void DrawUnitCircle()
-        {
-            Ellipse ellipse = new Ellipse();
-
-            ellipse.Height = 150;
-            ellipse.Width = 150;
-            ellipse.StrokeThickness = 1;
-            ellipse.Stroke = System.Windows.Media.Brushes.Black;
-
-            double left = this.Width/2 - ellipse.Width /2;
-            double top = ellipse.Height/2;
-            ellipse.Margin = new Thickness(left, top, 0, 0);
-
-            canvas.Children.Add(ellipse);
-        }
+        
     }
 }
