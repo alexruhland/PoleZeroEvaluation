@@ -36,7 +36,6 @@ namespace PoleZeroEvaluationPrototype
             {
                 Width = mainCanvas.Width / 3 * 2,
                 Height = mainCanvas.Height / 4,
-                Background = Brushes.Aqua
             };
             Canvas.SetTop(magCanvas, 0);
             Canvas.SetLeft(magCanvas, 0);
@@ -54,7 +53,6 @@ namespace PoleZeroEvaluationPrototype
             {
                 Width = phaseCanvas.Width,
                 Height = mainCanvas.Height / 2,
-               Background = Brushes.Violet
             };
             Canvas.SetTop(pzCanvas, 2 * magCanvas.Height);
             Canvas.SetLeft(pzCanvas, 0);
@@ -78,13 +76,16 @@ namespace PoleZeroEvaluationPrototype
             DrawingUtils.DrawAxis(pzCanvas);
             DrawingUtils.DrawUnitCircle(pzCanvas);
             DrawingUtils.InitTextBox(pzTextCanvase);
+            DrawingUtils.DrawMagAxis(magCanvas);
 
             this.Content = mainCanvas;
             this.Show();
 
             //Initialize the collection
-            PoleAndZeroCollection _pAndzCollection = new PoleAndZeroCollection();
+            PoleAndZeroCollection pAndzCol = new PoleAndZeroCollection();
 
+            ((TextBox)pzTextCanvase.Children[0]).AppendText(pAndzCol.addZero(0, 1, pzCanvas));
+            ((TextBox)pzTextCanvase.Children[0]).AppendText(pAndzCol.addPole(-0.5, -0.25, pzCanvas));
 
         }
         

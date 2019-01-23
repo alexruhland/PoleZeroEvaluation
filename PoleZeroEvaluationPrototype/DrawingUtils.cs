@@ -17,6 +17,30 @@ namespace PoleZeroEvaluationPrototype
 {
     class DrawingUtils
     {
+        public static void DrawMagAxis(Canvas canvas)
+        {
+            Line line1 = new Line();
+            line1.X1 = canvas.Width / 40;
+            line1.X2 = canvas.Width * 9 / 10;
+            line1.Y1 = canvas.Height * 9 / 10;
+            line1.Y2 = canvas.Height * 9 / 10;
+            line1.Stroke = System.Windows.Media.Brushes.Black;
+            line1.StrokeThickness = 1;
+
+            Line line2 = new Line();
+            line2.X1 = line1.X1*2;
+            line2.X2 = line1.X1 *2;
+            line2.Y1 = canvas.Height * 1 / 20;
+            line2.Y2 = canvas.Height * 39 / 40;
+            line2.Stroke = System.Windows.Media.Brushes.Black;
+            line2.StrokeThickness = 1;
+
+            canvas.Children.Add(line1);
+            canvas.Children.Add(line2);
+
+            canvas.UpdateLayout();
+        }
+
         public static void DrawAxis(Canvas canvas)
         {
             Line line1 = new Line();
@@ -57,6 +81,35 @@ namespace PoleZeroEvaluationPrototype
             canvas.Children.Add(ellipse);
         }
 
+        public static void DrawShape(Canvas canvas, Double re, Double im, PoleOrZeroType type)
+        {
+            Shape shape = null;
+
+            if(type == PoleOrZeroType.Pole)
+            {
+                shape = new Ellipse();
+            }
+            else
+            {
+                shape = new Rectangle();
+            }
+            shape.Height = 10;
+            shape.Width = 10;
+            shape.StrokeThickness = 1;
+            shape.Stroke = System.Windows.Media.Brushes.Black;
+
+            double xLoc = canvas.Width / 2;
+            xLoc += (re * (canvas.Width / 4));
+
+            double yLoc = canvas.Height / 2;
+            yLoc -= (im * (canvas.Height / 4));
+
+            Canvas.SetTop(shape, yLoc - shape.Height / 2);
+            Canvas.SetLeft(shape, xLoc - shape.Width / 2);
+
+            canvas.Children.Add(shape);
+        }
+
         public static void InitTextBox(Canvas canvas)
         {
             TextBox tb = new TextBox();
@@ -66,9 +119,11 @@ namespace PoleZeroEvaluationPrototype
             Canvas.SetTop(tb, 0);
             Canvas.SetLeft(tb, 0);
 
-            tb.Text = "Welcome...";
+            tb.Text = "Welcome...\n";
 
             canvas.Children.Add(tb);
         }
+
+
     }
 }
